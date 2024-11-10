@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['timeline']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1UpeM4fTpfUv-wJFgiBOiltYjf1MRwir6c_-zZmsVnToMx9cl7Ky12TyqPcrK38Jdcu0S28PlrIsw/pubhtml');
+
+        query.send(function(response) {
+          if (response.isError()) {
+            console.error('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+            return;
+          }
+
+          var data = response.getDataTable();
+          var options = {
+            timeline: { showRowLabels: true },
+            avoidOverlappingGridLines: false,
+            backgroundColor: '#f1f8e9'
+          };
+
+          var chart = new google.visualization.Timeline(document.getElementById('timeline'));
+          chart.draw(data, options);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="timeline" style="height: 500px;"></div>
+  </body>
+</html>
